@@ -1,2 +1,2 @@
-name: Contoso
-resourceGroup: Compute-Gallery
+name: DevBox_Gallery
+resourceGroup: DevBox_Packer
