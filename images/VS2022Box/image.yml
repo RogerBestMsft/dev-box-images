@@ -1,5 +1,5 @@
 description: Windows 11 Enterprise + M365 Apps + VS2022
-publisher: Contoso
+publisher: RBest
 offer: DevBox
 sku: win11-vs2022
 version: 1.0.0
