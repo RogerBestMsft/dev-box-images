@@ -5,7 +5,7 @@ concurrency: ${{ github.ref }}
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [rbest/testbranch]
     paths:
       - 'images/**'
       - 'scripts/**'
@@ -30,57 +30,57 @@ jobs:
         id: images
         run: python "./builder/image.py"
 
-  build:
-    needs: prepare
-    # runs-on: windows-latest
-    runs-on: ubuntu-latest
-
-    # this is needed to avoid workflow errors in case of an empty matrix
-    if: ${{ needs.prepare.outputs.build == 'true' }}
-
-    strategy:
-      fail-fast: false
-      matrix: ${{ fromJson(needs.prepare.outputs.images) }}
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      # OR
-
-      # - name: Login to Azure
-      #   run: az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
-
-      - name: Build ${{ matrix.name }} with ${{ matrix.builder }}
-        run: python "./builder/build.py" --suffix ${{ github.run_number }} --images ${{ matrix.name }}
-
   # build:
+  #   needs: prepare
   #   # runs-on: windows-latest
   #   runs-on: ubuntu-latest
 
-  #   if: "!contains(join(github.event.commits.*.message), '+nobuild')"
+  #   # this is needed to avoid workflow errors in case of an empty matrix
+  #   if: ${{ needs.prepare.outputs.build == 'true' }}
 
-  #   env:
-  #     STORAGE_ACCOUNT: devboximagesstorage
-  #     SUBNET_ID: /subscriptions/e5f715ae-6c72-4a5c-87c8-495590c34828/resourceGroups/DevBox-Images/providers/Microsoft.Network/virtualNetworks/devbox-images-vnet/subnets/builders
+  #   strategy:
+  #     fail-fast: false
+  #     matrix: ${{ fromJson(needs.prepare.outputs.images) }}
 
   #   steps:
   #     - uses: actions/checkout@v2
 
-  #     # - name: Login to Azure
-  #     #   uses: azure/login@v1
-  #     #   with:
-  #     #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #     - name: Login to Azure
+  #       uses: azure/login@v1
+  #       with:
+  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
   #     # OR
 
-  #     - name: Login to Azure
-  #       run: az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+  #     # - name: Login to Azure
+  #     #   run: az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
 
-  #     - name: Deploy Build ACI Containers
-  #       id: images
-  #       run: python "./builder/aci.py" --async --repository "${{ github.repositoryUrl }}" --token "${{ github.token }}" --client-id "${{ secrets.AZURE_CLIENT_ID }}" --client-secret "${{ secrets.AZURE_CLIENT_SECRET }}" --storage-account "${{ env.STORAGE_ACCOUNT }}" --subnet-id "${{ env.SUBNET_ID }}"
+  #     - name: Build ${{ matrix.name }} with ${{ matrix.builder }}
+  #       run: python "./builder/build.py" --suffix ${{ github.run_number }} --images ${{ matrix.name }}
+
+  build:
+    # runs-on: windows-latest
+    runs-on: ubuntu-latest
+
+    if: "!contains(join(github.event.commits.*.message), '+nobuild')"
+
+    env:
+      STORAGE_ACCOUNT: devboxstoreimage
+      SUBNET_ID: /subscriptions/da8f3095-ac12-4ef2-9b35-fcd24842e207/resourceGroups/DevBox_Packer/providers/Microsoft.Network/virtualNetworks/virtualboxnet/subnets/devboxsubnet
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # - name: Login to Azure
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # OR
+
+      - name: Login to Azure
+        run: az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+
+      - name: Deploy Build ACI Containers
+        id: images
+        run: python "./builder/aci.py" --async --repository "${{ github.repositoryUrl }}" --token "${{ github.token }}" --client-id "${{ secrets.AZURE_CLIENT_ID }}" --client-secret "${{ secrets.AZURE_CLIENT_SECRET }}" --storage-account "${{ env.STORAGE_ACCOUNT }}" --subnet-id "${{ env.SUBNET_ID }}"
