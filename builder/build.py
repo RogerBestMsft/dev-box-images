@@ -6,7 +6,6 @@ import sys
 from datetime import datetime, timezone
 
 import azure as az
-import gallery as gal
 import image as img
 import loggers
 import packer
@@ -23,13 +22,16 @@ def error_exit(message):
 
 def main(names, suffix, skip_build=False):
 
-    gallery = gal.get()
+    gallery = img.get_gallery()
     common = img.get_common()
     images = [img.get(n, gallery, common, suffix, ensure_azure=True) for n in names] if names else img.all(gallery, common, suffix, ensure_azure=True)
 
     for image in images:
 
         if image['build']:
+
+            if 'subscription' in image and image['subscription']:
+                az.cli(f'az account set -s {image["subscription"]}')
 
             if image['builder'] == 'packer':
                 packer.save_vars_file(image)
@@ -77,7 +79,7 @@ async def _process_image_async(name, gallery, common, suffix, skip_build):
 async def main_async(names, suffix, skip_build=False):
     names = names if names else img.image_names()
 
-    gallery = gal.get()
+    gallery = img.get_gallery()
     common = img.get_common()
     build_imgs = await asyncio.gather(*[_process_image_async(n, gallery, common, suffix, skip_build) for n in names])
     # set GitHub output

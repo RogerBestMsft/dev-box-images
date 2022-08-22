@@ -7,7 +7,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import azure as az
-import gallery as gal
 import image as img
 import loggers
 import repos
@@ -48,7 +47,7 @@ def _save_params_file(image, params):
 
 def main(names, params, suffix, skip_build=False):
 
-    gallery = gal.get()
+    gallery = img.get_gallery()
     common = img.get_common()
     images = [img.get(n, gallery, common, suffix, ensure_azure=True) for n in names] if names else img.all(gallery, common, suffix, ensure_azure=True)
 
@@ -60,16 +59,16 @@ def main(names, params, suffix, skip_build=False):
 
             if not skip_build:
 
-                bicep_file = os.path.join(Path(__file__).resolve().parent, 'builder.bicep')
+                bicep_file = os.path.join(Path(__file__).resolve().parent, 'templates', 'builder.bicep')
                 params_file = '@' + os.path.join(image['path'], BUILDER_PARAMS_FILE)
 
                 if 'tempResourceGroup' in image and image['tempResourceGroup']:
                     group_name = image['tempResourceGroup']
-                    group = az.cli(['group', 'create', '-n', image['tempResourceGroup'], '-l', image['location']])
+                    group = az.cli(['group', 'create', '-n', image['tempResourceGroup'], '-l', image['location'], '--subscription', image['subscription']])
                 else:
                     group_name = image['buildResourceGroup']
-                
-                group = az.cli(['deployment', 'group', 'create', '-n', image['name'], '-g', group_name, '-f', bicep_file, '-p', params_file, '--no-prompt'])
+
+                group = az.cli(['deployment', 'group', 'create', '-n', image['name'], '-g', group_name, '-f', bicep_file, '-p', params_file, '--no-prompt', '--subscription', image['subscription']])
 
     if skip_build:
         log.warning('Skipping build execution because --skip-build was provided')
@@ -85,16 +84,16 @@ async def _process_image_async(name, params, gallery, common, suffix, skip_build
 
         if not skip_build:
 
-            bicep_file = os.path.join(Path(__file__).resolve().parent, 'builder.bicep')
+            bicep_file = os.path.join(Path(__file__).resolve().parent, 'templates', 'builder.bicep')
             params_file = '@' + os.path.join(image['path'], BUILDER_PARAMS_FILE)
 
             if 'tempResourceGroup' in image and image['tempResourceGroup']:
                 group_name = image['tempResourceGroup']
-                group = await az.cli_async(['group', 'create', '-n', image['tempResourceGroup'], '-l', image['location']])
+                group = await az.cli_async(['group', 'create', '-n', image['tempResourceGroup'], '-l', image['location'], '--subscription', image['subscription']])
             else:
                 group_name = image['buildResourceGroup']
 
-            group = await az.cli_async(['deployment', 'group', 'create', '-n', image['name'], '-g', group_name, '-f', bicep_file, '-p', params_file, '--no-prompt'])
+            group = await az.cli_async(['deployment', 'group', 'create', '-n', image['name'], '-g', group_name, '-f', bicep_file, '-p', params_file, '--no-prompt', '--subscription', image['subscription']])
 
     if skip_build:
         log.warning('Skipping build execution because --skip-build was provided')
@@ -103,7 +102,7 @@ async def _process_image_async(name, params, gallery, common, suffix, skip_build
 async def main_async(names, params, suffix, skip_build=False):
     names = names if names else img.image_names()
 
-    gallery = gal.get()
+    gallery = img.get_gallery()
     common = img.get_common()
     build_imgs = await asyncio.gather(*[_process_image_async(n, params, gallery, common, suffix, skip_build) for n in names])
 
@@ -117,15 +116,16 @@ if __name__ == '__main__':
     parser.add_argument('--async', '-a', dest='is_async', action='store_true', help='build images asynchronously. because the processes run in parallel, the output is not ordered')
     parser.add_argument('--changes', '-c', nargs='*', help='paths of the files that changed to determine which images to build. if not specified all images will be built')
     parser.add_argument('--suffix', '-s', help='suffix to append to the resource group name. if not specified, the current time will be used')
-    parser.add_argument('--skip-build', dest='skip_build', action='store_true',
+    parser.add_argument('--skip-build', action='store_true',
                         help='skip building images with packer or azure image builder depening on the builder property in the image definition yaml')
 
     parser.add_argument('--subnet-id', '-sni', help='The resource id of a subnet to use for the container instance. If this is not specified, the container instance will not be created in a virtual network and have a public ip address.')
     parser.add_argument('--storage-account', '-sa', help='The name of an existing storage account to use with the container instance. If not specified, the container instance will not mount a persistant file share.')
     parser.add_argument('--client-id', '-cid', required=True, help='The client (app) id for the service principal to use for authentication.')
     parser.add_argument('--client-secret', '-cs', required=True, help='The secret for the service principal to use for authentication.')
-    parser.add_argument('--repository', '-r', required=True, help='The git repository that contains your image.yml and build scripts.')
+    parser.add_argument('--repository', '-r', required=True, help='The git repository that contains your image.yml and buiild scripts.')
     parser.add_argument('--branch', '-b', help='The git repository branch that contains your image.yml and build scripts.')
+    parser.add_argument('--revision', '-b', help='The git repository revision that contains your image.yml and buiild scripts.')
     parser.add_argument('--token', '-t', help='The PAT token to use when cloning the git repository.')
 
     args = parser.parse_args()
@@ -133,12 +133,8 @@ if __name__ == '__main__':
     subnet_id = args.subnet_id
     client_id = args.client_id
     client_secret = args.client_secret
-    storage_account = args.storage_account
 
-    if args.repository:
-        repo = repos.parse_url(args.repository)
-        if args.token:
-            repo['token'] = args.token
+    repo = repos.parse_url(args.repository)
 
     if not args.branch:
         repo_branch = 'main'
@@ -146,13 +142,20 @@ if __name__ == '__main__':
         repo_branch = args.branch
 
     params = {
-        'subnetId': subnet_id,
-        'storageAccount': storage_account,
         'clientId': client_id,
         'clientSecret': client_secret,
-        'repository': repo['gitUrl'].replace('https://', f'https://{repo["token"]}@') if 'token' in repo else repo['gitUrl'],
+        'repository': repo['url'].replace('https://', f'https://{args.token}@') if args.token else repo['url'],
         'branch': repo_branch
     }
+
+    if args.revision:
+        params['revision'] = args.revision
+
+    if args.subnet_id:
+        params['subnetId'] = args.subnet_id
+
+    if args.storage_account:
+        params['storageAccount'] = args.storage_account
 
     is_async = args.is_async
     skip_build = args.skip_build
