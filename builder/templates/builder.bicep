@@ -8,9 +8,6 @@ param container string = 'ghcr.io/colbylwilliams/devbox-images/builder'
 @description('The git repository that contains your image.yml and buiild scripts.')
 param repository string
 
-@description('The branch of the git repository specified in the repository parameter.')
-param branch string = 'rbest/testbranch'
-
 @description('Commit hash for the specified revision for the repository.')
 param revision string = ''
 
