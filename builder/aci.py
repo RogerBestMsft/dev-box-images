@@ -124,7 +124,7 @@ if __name__ == '__main__':
     parser.add_argument('--client-id', '-cid', required=True, help='The client (app) id for the service principal to use for authentication.')
     parser.add_argument('--client-secret', '-cs', required=True, help='The secret for the service principal to use for authentication.')
     parser.add_argument('--repository', '-r', required=True, help='The git repository that contains your image.yml and buiild scripts.')
-    parser.add_argument('--branch', '-b', help='The git repository branch that contains your image.yml and build scripts.')
+    #parser.add_argument('--branch', '-b', help='The git repository branch that contains your image.yml and build scripts.')
     parser.add_argument('--revision', '-b', help='The git repository revision that contains your image.yml and buiild scripts.')
     parser.add_argument('--token', '-t', help='The PAT token to use when cloning the git repository.')
 
@@ -136,20 +136,20 @@ if __name__ == '__main__':
 
     repo = repos.parse_url(args.repository)
 
-    if not args.branch:
-        repo_branch = 'main'
-    else:
-        repo_branch = args.branch
+    #if not args.branch:
+    #    repo_branch = 'main'
+    #else:
+    #    repo_branch = args.branch
 
     params = {
         'clientId': client_id,
         'clientSecret': client_secret,
-        'repository': repo['url'].replace('https://', f'https://{args.token}@') if args.token else repo['url'],
-        'branch': repo_branch
+        'repository': repo['url'].replace('https://', f'https://{args.token}@') if args.token else repo['url']
+        #'branch': repo_branch
     }
 
     if args.revision:
-        params['revision'] = args.revision
+        params['revision'] = 'rbest/testbranch:latest' # = args.revision
 
     if args.subnet_id:
         params['subnetId'] = args.subnet_id
