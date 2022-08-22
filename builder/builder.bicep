@@ -9,7 +9,7 @@ param container string = 'ghcr.io/azure/dev-box-images/builder'
 param repository string
 
 @description('The branch of the git repository specified in the repository parameter.')
-param branch string = 'main'
+param branch string = 'rbest/testbranch'
 
 @description('The name of the image to build. This should match the name of a folder inside the /images folder in your repository.')
 param image string

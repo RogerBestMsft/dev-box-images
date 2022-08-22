@@ -69,7 +69,6 @@ def main(names, params, suffix, skip_build=False):
                 else:
                     group_name = image['buildResourceGroup']
                 
-                log.warning('Before deploy.')
                 group = az.cli(['deployment', 'group', 'create', '-n', image['name'], '-g', group_name, '-f', bicep_file, '-p', params_file, '--no-prompt'])
 
     if skip_build:
