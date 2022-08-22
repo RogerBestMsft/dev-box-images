@@ -260,10 +260,11 @@ if __name__ == '__main__':
     parser.add_argument('--github', action='store_true', help='if specified, set output variables for github actions')
 
     args = parser.parse_args()
-
+    log.info('Execute get_gallery')
     gallery = get_gallery()
+    log.info('Execute get_common')
     common = get_common()
-
+    log.info('Get images')
     # images = [get(i, gallery, common) for i in args.images] if args.images else all(gallery, common)
     images = [get(i, gallery, common, 'suffix', ensure_azure=True) for i in args.images] if args.images else all(gallery, common, 'suffix', ensure_azure=True)
     import json
