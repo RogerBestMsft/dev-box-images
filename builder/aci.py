@@ -110,8 +110,8 @@ async def main_async(names, params, suffix, skip_build=False):
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(description='Build custom images for Microsoft Dev Box using Packer then pubish them to an Azure Compute Gallery.'
-                                     'This script asumes the presence of a gallery.yaml file in the root of the repository and image.yaml files in each subdirectory of the /images directory',
+    parser = argparse.ArgumentParser(description='Build custom images for Microsoft Dev Box using Packer then publish them to an Azure Compute Gallery.'
+                                     'This script assumes the presence of a gallery.yaml file in the root of the repository and image.yaml files in each subdirectory of the /images directory',
                                      epilog='example: python3 aci.py --suffix 22 --build')
     parser.add_argument('--images', '-i', nargs='*', help='names of images to build. if not specified all images will be')
     parser.add_argument('--async', '-a', dest='is_async', action='store_true', help='build images asynchronously. because the processes run in parallel, the output is not ordered')
@@ -124,7 +124,8 @@ if __name__ == '__main__':
     parser.add_argument('--storage-account', '-sa', help='The name of an existing storage account to use with the container instance. If not specified, the container instance will not mount a persistant file share.')
     parser.add_argument('--client-id', '-cid', required=True, help='The client (app) id for the service principal to use for authentication.')
     parser.add_argument('--client-secret', '-cs', required=True, help='The secret for the service principal to use for authentication.')
-    parser.add_argument('--repository', '-r', required=True, help='The git repository that contains your image.yml and buiild scripts.')
+    parser.add_argument('--repository', '-r', required=True, help='The git repository that contains your image.yml and build scripts.')
+    parser.add_argument('--branch', '-b', help='The git repository branch that contains your image.yml and build scripts.')
     parser.add_argument('--token', '-t', help='The PAT token to use when cloning the git repository.')
 
     args = parser.parse_args()
@@ -139,12 +140,18 @@ if __name__ == '__main__':
         if args.token:
             repo['token'] = args.token
 
+    if not args.branch:
+        repo_branch = 'main'
+    else:
+        repo_branch = args.branch
+
     params = {
         'subnetId': subnet_id,
         'storageAccount': storage_account,
         'clientId': client_id,
         'clientSecret': client_secret,
-        'repository': repo['gitUrl'].replace('https://', f'https://{repo["token"]}@') if 'token' in repo else repo['gitUrl']
+        'repository': repo['gitUrl'].replace('https://', f'https://{repo["token"]}@') if 'token' in repo else repo['gitUrl'],
+        'branch': repo_branch
     }
 
     is_async = args.is_async
