@@ -5,7 +5,7 @@ param location string = resourceGroup().location
 param container string = 'ghcr.io/rogerbestmsft/devbox-images/builder'
 
 @secure()
-@description('The git repository that contains your image.yml and buiild scripts.')
+@description('The git repository that contains your image.yml and build scripts.')
 param repository string
 
 @description('Commit hash for the specified revision for the repository.')
