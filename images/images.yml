@@ -34,10 +34,10 @@ offer: DevBox
 replicaLocations:
   - eastus
   - westeurope
-buildResourceGroup: DevBox_Images
-keyVault: DevBoxImageKeyVault
-virtualNetwork: DevBox_Images_VNet
-virtualNetworkSubnet: DevBox_Images_Subnet
-virtualNetworkResourceGroup: DevBox_Images
+buildResourceGroup: DevBox_Packer
+keyVault: devboxabkv
+virtualNetwork: devboxab-vnet
+virtualNetworkSubnet: builders
+virtualNetworkResourceGroup: DevBox_EnvAB
 subscription: da8f3095-ac12-4ef2-9b35-fcd24842e207
 
