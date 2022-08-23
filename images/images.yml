@@ -34,7 +34,7 @@ offer: DevBox
 replicaLocations:
   - eastus
   - westeurope
-buildResourceGroup: DevBox_Packer
+buildResourceGroup: DevBox_EnvAB
 keyVault: devboxabkv
 virtualNetwork: devboxab-vnet
 virtualNetworkSubnet: builders
