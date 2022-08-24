@@ -97,8 +97,7 @@ async def _process_image_async(name, params, gallery, common, suffix, skip_build
             else:
                 group_name = image['buildResourceGroup']
 
-            #group = await az.cli_async(['deployment', 'group', 'create', '-n', image['name'], '-g', group_name, '-f', bicep_file, '-p', params_file, '--no-prompt', '--subscription', image['subscription']])
-            group = await az.cli(['deployment', 'group', 'create', '-n', image['name'], '-g', group_name, '-f', bicep_file, '-p', params_file, '--no-prompt', '--subscription', image['subscription']])
+            group = await az.cli_async(['deployment', 'group', 'create', '-n', image['name'], '-g', group_name, '-f', bicep_file, '-p', params_file, '--no-prompt', '--subscription', image['subscription']])
 
     if skip_build:
         log.warning('Skipping build execution because --skip-build was provided')
