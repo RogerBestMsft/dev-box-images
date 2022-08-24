@@ -158,7 +158,7 @@ if __name__ == '__main__':
     }
 
     if args.revision:
-        params['revision'] = 'rbest/testbranch:latest' # = args.revision
+        params['revision'] = args.revision
 
     if args.subnet_id:
         params['subnetId'] = args.subnet_id
