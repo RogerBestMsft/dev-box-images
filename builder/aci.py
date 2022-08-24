@@ -168,6 +168,7 @@ if __name__ == '__main__':
     suffix = args.suffix if args.suffix else datetime.now(timezone.utc).strftime('%Y%m%d%H%M')
 
     if is_async:
+        log.info('@@Running async.')
         asyncio.run(main_async(names, params, suffix, skip_build))
     else:
         main(names, params, suffix, skip_build)
