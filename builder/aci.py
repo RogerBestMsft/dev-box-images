@@ -41,6 +41,10 @@ def _save_params_file(image, params):
             'value': params[p]
         }
 
+    log.info('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+    log.info(params_json)
+    log.info('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+
     with open(Path(image['path']) / BUILDER_PARAMS_FILE, 'w') as f:
         json.dump(params_json, f, ensure_ascii=False, indent=4, sort_keys=True)
 
@@ -68,10 +72,12 @@ def main(names, params, suffix, skip_build=False):
                 else:
                     group_name = image['buildResourceGroup']
 
-                #text_file = open(params_file,"r")
-                #data = text_file.read()
-                #text_file.close()
-                #log.info(data)
+                text_file = open(params_file,"r")
+                data = text_file.read()
+                text_file.close()
+                log.info('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+                log.info(data)
+                log.info('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
                 group = az.cli(['deployment', 'group', 'create', '-n', image['name'], '-g', group_name, '-f', bicep_file, '-p', params_file, '--no-prompt', '--subscription', image['subscription']])
 
     if skip_build:
