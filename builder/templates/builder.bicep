@@ -84,6 +84,9 @@ resource group 'Microsoft.ContainerInstance/containerGroups@2021-10-01' = {
     version: version
     timestamp: timestamp
   }
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     subnetIds: (!empty(subnetId) ? [
       {
