@@ -41,7 +41,7 @@ def _save_params_file(image, params):
             'value': params[p]
         }
 
-    log.info('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+    log.info('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
     log.info(params_json)
     log.info('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
 
@@ -138,11 +138,6 @@ if __name__ == '__main__':
     client_secret = args.client_secret
 
     repo = repos.parse_url(args.repository)
-
-    #if not args.branch:
-    #    repo_branch = 'main'
-    #else:
-    #    repo_branch = args.branch
 
     params = {
         'clientId': client_id,
