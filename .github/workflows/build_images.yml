@@ -89,4 +89,4 @@ jobs:
       - name: Deploy Build ACI Containers
         id: images
         #run: python "./builder/aci.py" --async --repository "${{ github.repositoryUrl }}" --token "${{ github.token }}" --client-id "${{ secrets.AZURE_CLIENT_ID }}" --client-secret "${{ secrets.AZURE_CLIENT_SECRET }}" --storage-account "${{ env.STORAGE_ACCOUNT }}" --subnet-id "${{ env.SUBNET_ID }}"
-        run: python "./builder/aci.py" --repository "${{ github.repositoryUrl }}" --token "${{ github.token }}" --client-id "${{ secrets.AZURE_CLIENT_ID }}" --client-secret "${{ secrets.AZURE_CLIENT_SECRET }}" --storage-account "${{ env.STORAGE_ACCOUNT }}" --subnet-id "${{ env.SUBNET_ID }}" --revision "1e60687175956edf36e231ff9ae8d9bad340c4f1"
+        run: python "./builder/aci.py" --repository "${{ github.repositoryUrl }}" --token "${{ github.token }}" --client-id "${{ secrets.AZURE_CLIENT_ID }}" --client-secret "${{ secrets.AZURE_CLIENT_SECRET }}" --storage-account "${{ env.STORAGE_ACCOUNT }}" --subnet-id "${{ env.SUBNET_ID }}" --revision "c3457c786ff38e94a2d3835cbc94f1bcae069cca"
