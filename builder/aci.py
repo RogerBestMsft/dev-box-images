@@ -72,12 +72,12 @@ def main(names, params, suffix, skip_build=False):
                 else:
                     group_name = image['buildResourceGroup']
 
-                text_file = open(params_file,"r")
-                data = text_file.read()
-                text_file.close()
-                log.info('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@A')
-                log.info(data)
-                log.info('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@A')
+                #text_file = open(params_file,"r")
+                #data = text_file.read()
+                #text_file.close()
+                #log.info('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@A')
+                #log.info(data)
+                #log.info('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@A')
                 group = az.cli(['deployment', 'group', 'create', '-n', image['name'], '-g', group_name, '-f', bicep_file, '-p', params_file, '--no-prompt', '--subscription', image['subscription']])
 
     if skip_build:
