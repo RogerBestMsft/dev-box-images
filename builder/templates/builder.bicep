@@ -79,13 +79,7 @@ resource storage 'Microsoft.Storage/storageAccounts@2021-09-01' existing = if (!
 
 resource group 'Microsoft.ContainerInstance/containerGroups@2021-10-01' = {
   name: validImageName
-  location: location
-  identity: {
-    type: 'UserAssigned'
-    userAssignedIdentities: {
-      'ed3eecff-c837-48df-8772-8c266bdcd7df': {}
-    }
-  }
+  location: location  
   tags: {
     version: version
     timestamp: timestamp
