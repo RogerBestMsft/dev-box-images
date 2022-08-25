@@ -83,7 +83,7 @@ resource group 'Microsoft.ContainerInstance/containerGroups@2021-10-01' = {
   identity: {
     type: 'UserAssigned'
     userAssignedIdentities: {
-      'ae8cdacf-e71f-4122-9aea-f7da727bdcf6': {}
+      'ed3eecff-c837-48df-8772-8c266bdcd7df': {}
     }
   }
   tags: {
