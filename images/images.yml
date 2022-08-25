@@ -28,7 +28,7 @@
 #       the authenticated user of service principal
 
 builder: packer
-publisher: RBestOverallD
+publisher: RBestOverallE
 offer: DevBox
 replicaLocations:
   - eastus
