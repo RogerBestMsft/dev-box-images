@@ -36,7 +36,7 @@ replicaLocations:
 buildResourceGroup: DevBox_EnvAB
 keyVault: devboxabkv
 virtualNetwork: devboxab-vnet
-virtualNetworkSubnet: builders
+virtualNetworkSubnet: default
 virtualNetworkResourceGroup: DevBox_EnvAB
 subscription: da8f3095-ac12-4ef2-9b35-fcd24842e207
 
