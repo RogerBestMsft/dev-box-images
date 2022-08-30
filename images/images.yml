@@ -28,15 +28,15 @@
 #       the authenticated user of service principal
 
 builder: packer
-publisher: RBestOverallH
+publisher: AdatumCorp
 offer: DevBox
 replicaLocations:
   - eastus
   - westeurope
-buildResourceGroup: DevBox_EnvAB
-keyVault: devboxabkv
-virtualNetwork: devboxab-vnet
+buildResourceGroup: DemoImageBuilder
+keyVault: adatumimagebuildkv
+virtualNetwork: adatumimagebuild-vnet
 virtualNetworkSubnet: default
-virtualNetworkResourceGroup: DevBox_EnvAB
-subscription: da8f3095-ac12-4ef2-9b35-fcd24842e207
+virtualNetworkResourceGroup: DemoImageBuilder
+subscription: 572b41e6-5c44-486a-84d2-01d6202774ac
 

@@ -70,8 +70,8 @@ jobs:
     if: "!contains(join(github.event.commits.*.message), '+nobuild')"
 
     env:
-      STORAGE_ACCOUNT: devboxabstorage
-      SUBNET_ID: /subscriptions/da8f3095-ac12-4ef2-9b35-fcd24842e207/resourceGroups/DevBox_EnvAB/providers/Microsoft.Network/virtualNetworks/devboxab-vnet/subnets/builders
+      STORAGE_ACCOUNT: adatumimagebuildstorage
+      SUBNET_ID: /subscriptions/572b41e6-5c44-486a-84d2-01d6202774ac/resourceGroups/DemoImageBuilder/providers/Microsoft.Network/virtualNetworks/adatumimagebuild-vnet/subnets/builders
 
     steps:
       - uses: actions/checkout@v2

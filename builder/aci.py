@@ -41,10 +41,6 @@ def _save_params_file(image, params):
             'value': params[p]
         }
 
-    log.info('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-    log.info(params_json)
-    log.info('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-
     with open(Path(image['path']) / BUILDER_PARAMS_FILE, 'w') as f:
         json.dump(params_json, f, ensure_ascii=False, indent=4, sort_keys=True)
 
