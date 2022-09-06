@@ -5,7 +5,7 @@ concurrency: ${{ github.ref }}
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [rbest/mssub]
     paths:
       - 'images/**'
       - 'scripts/**'
@@ -19,8 +19,8 @@ jobs:
     if: "!contains(join(github.event.commits.*.message), '+nobuild')"
 
     env:
-      STORAGE_ACCOUNT: contosoimagesstorage
-      SUBNET_ID: /subscriptions/e5f715ae-6c72-4a5c-87c8-495590c34828/resourceGroups/Contoso-Images/providers/Microsoft.Network/virtualNetworks/contoso-images-vnet/subnets/builders
+      STORAGE_ACCOUNT: devboxabstorage
+      SUBNET_ID: /subscriptions/da8f3095-ac12-4ef2-9b35-fcd24842e207/resourceGroups/DevBox_EnvAB/providers/Microsoft.Network/virtualNetworks/devboxab-vnet/subnets/builders
 
     steps:
       - uses: actions/checkout@v2
@@ -31,7 +31,7 @@ jobs:
       #     creds: ${{ secrets.AZURE_CREDENTIALS }}
       # OR
       - name: Login to Azure
-        run: az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+        run: az login --service-principal -u ${{ secrets.MS_AZURE_CLIENT_ID }} -p ${{ secrets.MS_AZURE_CLIENT_SECRET }} --tenant ${{ secrets.MS_AZURE_TENANT_ID }}
 
       # az cli installs bicep on demand the first time it's used
       # using the --async argument in the command below simultaniously invokes several commands that use bicep
@@ -41,7 +41,7 @@ jobs:
         run: az bicep upgrade
 
       - name: Deploy Build ACI Containers
-        run: python "./builder/aci.py" --async --repository "${{ github.repositoryUrl }}" --revision "${{ github.sha }}" --token "${{ github.token }}" --client-id "${{ secrets.AZURE_CLIENT_ID }}" --client-secret "${{ secrets.AZURE_CLIENT_SECRET }}" --storage-account "${{ env.STORAGE_ACCOUNT }}" --subnet-id "${{ env.SUBNET_ID }}"
+        run: python "./builder/aci.py" --async --repository "${{ github.repositoryUrl }}" --revision "${{ github.sha }}" --token "${{ github.token }}" --client-id "${{ secrets.MS_AZURE_CLIENT_ID }}" --client-secret "${{ secrets.MS_AZURE_CLIENT_SECRET }}" --storage-account "${{ env.STORAGE_ACCOUNT }}" --subnet-id "${{ env.SUBNET_ID }}"
 
   # prepare:
   #   # runs-on: windows-latest

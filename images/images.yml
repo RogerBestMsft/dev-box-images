@@ -29,14 +29,14 @@
 #       the authenticated user of service principal
 
 builder: packer
-publisher: Contoso
+publisher: RBestMS
 offer: DevBox
 replicaLocations:
   - eastus
   - westeurope
-buildResourceGroup: Contoso-Images
-keyVault: contosoimageskv
-virtualNetwork: contoso-images-vnet
+buildResourceGroup: DevBox_EnvAB
+keyVault: devboxabkv
+virtualNetwork: devboxab-vnet
 virtualNetworkSubnet: default
-virtualNetworkResourceGroup: Contoso-Images
-subscription: 00000000-0000-0000-0000-000000000000
+virtualNetworkResourceGroup: DevBox_EnvAB
+subscription: da8f3095-ac12-4ef2-9b35-fcd24842e207
