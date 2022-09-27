@@ -124,7 +124,7 @@ build {
 
   provisioner "powershell" {
     scripts = [
-      "${path.root}/../../scripts/HyperV/Create-VM.ps1"
+      "${path.root}/../../scripts/HyperV/Create-VM.ps1",
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
       "${path.root}/../../scripts/Generalize-VM.ps1"
     ]
