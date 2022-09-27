@@ -5,4 +5,5 @@
 $ErrorActionPreference = "Stop"
 
 Write-Output "Enable Hyper-V Restart required."
-Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All -NoRestart
+Write-Output "Restart for Hyper-V."
