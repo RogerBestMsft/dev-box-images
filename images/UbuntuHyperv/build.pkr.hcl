@@ -115,15 +115,6 @@ build {
     pause_before    = "2m"
   }
 
-
-  provisioner "powershell" {
-    elevated_user     = build.User
-    elevated_password = build.Password
-    scripts = [
-      "${path.root}/../../scripts/HyperV/Create-VM.ps1"
-    ]
-  }
-
   // this doesn't work yet
   // provisioner "powershell" {
   //   elevated_user     = build.User
@@ -133,6 +124,7 @@ build {
 
   provisioner "powershell" {
     scripts = [
+      "${path.root}/../../scripts/HyperV/Create-VM.ps1"
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
       "${path.root}/../../scripts/Generalize-VM.ps1"
     ]
