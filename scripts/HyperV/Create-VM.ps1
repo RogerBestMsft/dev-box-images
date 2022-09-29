@@ -2,9 +2,9 @@
 # Licensed under the MIT License.
 
 Param(
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [string]$Vm_Path= "C:\HyperVms",
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [string]$Vm_Name= "UbuntuVM",
     [Parameter(Mandatory=$false)]
     [string]$Vm_Vhd
@@ -13,17 +13,26 @@ Param(
 
 $ProgressPreference = 'SilentlyContinue'	# hide any progress output
 
-New-Item -Path $Vm_Path -Name $Vm_Name -ItemType Directory
-
 $fullpath = Join-Path -Path $Vm_Path -ChildPath $Vm_Name
+$ubuntuDownload = "http://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64-azure.vhd.zip"
+$ubuntuFile = "ubuntu.zip"
+$fullUbuntuZip = Join-Path $fullpath -ChildPath $ubuntuFile
+
+if (!(Test-Path -Path $fullpath )) {
+    New-Item -Path $Vm_Path -Name $Vm_Name -ItemType Directory
+}
+
+
+# Download Ubuntu 18.04 LTS Bionic Beaver 20220926
+Invoke-WebRequest $ubuntuDownload -UseBasicParsing -OutFile "$($fullUbuntuZip)"
+
+# Unzip file
+Expand-Archive $fullUbuntuZip -DestinationPath $fullpath
+
+# Get the .vhd
+$vhd = Get-ChildItem $fullpath -Include *.vhd -Recurse
 
 # Create vm
 New-VM -Name $Vm_Name -MemoryStartupBytes 1024MB -Path $fullpath
 
-if ($Vm_Vhd) {}
-else {
-    # Create new vhd
-    New-VHD -Path $($fullpath + "\localdisk.vhdx") -SizeBytes 60GB -Dynamic
-}
-
-Add-VMHardDiskDrive -VMName $Vm_Name -Path $($fullpath + "\localdisk.vhdx")
+Add-VMHardDiskDrive -VMName $Vm_Name -Path $($vhd.FullName)
