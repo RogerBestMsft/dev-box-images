@@ -77,7 +77,7 @@ def cli(command, log_command=True):
 
     try:
         if log_command:
-            log.info(f'A Running az cli command: {" ".join(args)}')
+            log.info(f'Running az cli command: {" ".join(args)}')
 
         proc = subprocess.run(args, capture_output=True, check=True, text=True)
 

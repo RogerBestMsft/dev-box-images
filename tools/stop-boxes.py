@@ -45,7 +45,7 @@ def _az(command, log_command=True):
     args = _parse_az_command(command)
     try:
         if log_command:
-            print(f'C Running az cli command: {" ".join(args)}')
+            print(f'Running az cli command: {" ".join(args)}')
         proc = subprocess.run(args, capture_output=True, check=True, text=True)
         return None if proc.returncode == 0 and not proc.stdout else json.loads(proc.stdout)
     except subprocess.CalledProcessError as e:
