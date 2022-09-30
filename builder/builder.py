@@ -81,12 +81,15 @@ common = img.get_common()
 image = img.get(image_name, gallery, common, suffix, ensure_azure=True)
 
 skip_build = not in_builder
-
+log.info(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ A')
 if image['build']:
+    log.info(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ B')
     packer.save_vars_file(image)
-
+    log.info(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ C')
     if not skip_build:
+        log.info(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ D')
         packer.execute(image)
+        log.info(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ E')
 
 if skip_build:
     log.warning('Skipping build execution because --skip-build was provided')

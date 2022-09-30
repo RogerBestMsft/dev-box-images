@@ -77,7 +77,7 @@ def cli(command, log_command=True):
 
     try:
         if log_command:
-            log.info(f'Running az cli command: {" ".join(args)}')
+            log.info(f'A Running az cli command: {" ".join(args)}')
 
         proc = subprocess.run(args, capture_output=True, check=True, text=True)
 
@@ -191,7 +191,7 @@ async def cli_async(command, log_command=True):
     args = _parse_command(command)
 
     if log_command:
-        log.info(f'Running az cli command: {" ".join(args)}')
+        log.info(f'B Running az cli command: {" ".join(args)}')
 
     try:
         proc = await asyncio.create_subprocess_exec(*args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
