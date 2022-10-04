@@ -104,7 +104,6 @@ build {
       "${path.root}/../../scripts/Install-GitHubDesktop.ps1",
       "${path.root}/../../scripts/Install-VSCode.ps1",
       "${path.root}/../../scripts/Install-AzureCLI.ps1",
-      "${path.root}/../../scripts/Install-VS2022.ps1",
       "${path.root}/../../scripts/Enable-Hyperv.ps1"
     ]
   }
