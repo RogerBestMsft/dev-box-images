@@ -27,14 +27,14 @@ if ($Vm_Vhd) {
 }
 else 
 {
-
+    Write-Host "Downloading Ubuntu vhd"
     $ubuntuDownload = "https://partner-images.canonical.com/hyper-v/desktop/focal/release/current/ubuntu-focal-hyperv-amd64-ubuntu-desktop-hyperv.vhdx.zip"
     $ubuntuFile = "ubuntu.zip"
     $fullUbuntuZip = Join-Path $fullpath -ChildPath $ubuntuFile
 
     # Download Ubuntu file
     Invoke-WebRequest $ubuntuDownload -UseBasicParsing -OutFile "$($fullUbuntuZip)"
-    
+    Write-Host "Extracting files"
     # Unzip file
     Expand-Archive -LiteralPath $fullUbuntuZip -DestinationPath $fullpath -Force
 
@@ -46,6 +46,14 @@ else
 }
 
 # Create vm
+Write-Host "Creating Hosted vm $Vm_Name"
 New-VM -Name $Vm_Name -MemoryStartupBytes 4096MB -Path $fullpath | Out-Null
 
+Write-Host "Attaching drive to hosted vm."
 Add-VMHardDiskDrive -VMName $Vm_Name -Path $VhdToAttach
+
+Write-Host "Enable VM Integration"
+Get-VMIntegrationService -VMName $vm_Name | ? Name -match 'Interface' | Enable-VMIntegrationService
+
+Write-Host "Increase processors and Enable processor compatibility"
+Set-VMProcessor -VMName $Vm_Name -CompatibilityForMigrationEnabled 1 -Count 2
