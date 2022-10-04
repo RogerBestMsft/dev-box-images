@@ -114,16 +114,16 @@ build {
     pause_before    = "2m"
   }
 
-  // this doesn't work yet
-  // provisioner "powershell" {
-  //   elevated_user     = build.User
-  //   elevated_password = build.Password
-  //   scripts           = [for r in var.repos : "${path.root}/../../scripts/Clone-Repo.ps1 -Url '${r.url}' -Secret '${r.secret}'"]
-  // }
+  provisioner "powershell" {
+    elevated_user     = build.User
+    elevated_password = build.Password
+    scripts = [
+      "${path.root}/../../scripts/HyperV/Create-Ubuntu-VM.ps1"
+    ]
+  }
 
   provisioner "powershell" {
-    scripts = [
-      "${path.root}/../../scripts/HyperV/Create-VM.ps1",
+    scripts = [      
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
       "${path.root}/../../scripts/Generalize-VM.ps1"
     ]
