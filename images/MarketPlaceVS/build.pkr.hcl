@@ -73,21 +73,20 @@ build {
   provisioner "windows-update" {
   }
 
-  # provisioner "powershell" {
-  #  elevated_user     = build.User
-  #  elevated_password = build.Password
-  #  scripts = [
-  #    "${path.root}/../../scripts/Install-PsModules.ps1",
-  #    "${path.root}/../../scripts/Install-AzPsModule.ps1",
-  #    "${path.root}/../../scripts/Install-Chocolatey.ps1"
-  #  ]
-  #}
+  provisioner "powershell" {
+    elevated_user     = build.User
+    elevated_password = build.Password
+    scripts = [
+      "${path.root}/../../scripts/Install-PsModules.ps1",
+      "${path.root}/../../scripts/Install-AzPsModule.ps1",
+      "${path.root}/../../scripts/Install-Chocolatey.ps1"
+    ]
+  }
 
   provisioner "powershell" {
     elevated_user     = build.User
     elevated_password = build.Password
     inline = [
-      // "choco install postman --yes --no-progress",
       "choco install googlechrome --yes --no-progress",
       "choco install firefox --yes --no-progress"
     ]
@@ -99,12 +98,9 @@ build {
     scripts = [
       "${path.root}/../../scripts/Install-Git.ps1",
       "${path.root}/../../scripts/Install-GitHub-CLI.ps1",
-      # "${path.root}/../../scripts/Install-DotNet.ps1",
       "${path.root}/../../scripts/Install-Python.ps1",
       "${path.root}/../../scripts/Install-GitHubDesktop.ps1",
-      # "${path.root}/../../scripts/Install-VSCode.ps1",
-      "${path.root}/../../scripts/Install-AzureCLI.ps1",
-      # "${path.root}/../../scripts/Install-VS2022.ps1"
+      "${path.root}/../../scripts/Install-AzureCLI.ps1"
     ]
   }
 
