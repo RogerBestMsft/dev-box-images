@@ -96,11 +96,9 @@ build {
     elevated_user     = build.User
     elevated_password = build.Password
     scripts = [
-      "${path.root}/../../scripts/Install-Git.ps1",
       "${path.root}/../../scripts/Install-GitHub-CLI.ps1",
       "${path.root}/../../scripts/Install-Python.ps1",
-      "${path.root}/../../scripts/Install-GitHubDesktop.ps1",
-      "${path.root}/../../scripts/Install-AzureCLI.ps1"
+      "${path.root}/../../scripts/Install-GitHubDesktop.ps1"
     ]
   }
 
