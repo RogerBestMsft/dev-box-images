@@ -126,20 +126,6 @@ provisioner "windows-restart" {
   }
 
   provisioner "powershell" {
-    elevated_user     = build.User
-    elevated_password = build.Password
-    scripts = [
-      "${path.root}/../../scripts/Install-WSL2Update.ps1"
-    ]
-  }
-  
-provisioner "windows-restart" {
-    # needed to get elevated script execution working
-    restart_timeout = "30m"
-    pause_before    = "2m"
-  }
-
-  provisioner "powershell" {
     scripts = [
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
       "${path.root}/../../scripts/Generalize-VM.ps1"
