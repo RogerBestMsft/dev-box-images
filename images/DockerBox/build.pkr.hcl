@@ -129,10 +129,15 @@ provisioner "windows-restart" {
     elevated_user     = build.User
     elevated_password = build.Password
     scripts = [
-      "${path.root}/../../scripts/Docker/Set-DockerUsers.ps1"
+      "${path.root}/../../scripts/Install-WSL2Update.ps1"
     ]
   }
   
+provisioner "windows-restart" {
+    # needed to get elevated script execution working
+    restart_timeout = "30m"
+    pause_before    = "2m"
+  }
 
   provisioner "powershell" {
     scripts = [

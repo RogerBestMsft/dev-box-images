@@ -39,5 +39,5 @@ description: Windows 11 Enterprise + Docker Desktop
 publisher: RBest
 offer: DevBox
 sku: win11-docker
-version: 1.0.2
+version: 1.0.3
 os: Windows
