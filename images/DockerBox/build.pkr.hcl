@@ -115,11 +115,17 @@ build {
     elevated_user     = build.User
     elevated_password = build.Password
     scripts = [
-      "${path.root}/../../scripts/Install-DockerDesktop.ps1"
+      "${path.root}/../../scripts/Install-DockerDesktop.ps1"      
     ]
   }
   
-provisioner "windows-restart" {
+  provisioner "file" {
+    source = "${path.root}/../../scripts/Docker/Set-DockerUser.ps1"
+    destination = "C:/Windows/Temp/Set-DockerUser.ps1"
+  }
+
+
+  provisioner "windows-restart" {
     # needed to get elevated script execution working
     restart_timeout = "30m"
     pause_before    = "2m"
@@ -127,6 +133,7 @@ provisioner "windows-restart" {
 
   provisioner "powershell" {
     scripts = [
+      "${path.root}/../../scripts/Docker/Set-ActiveSetupUser.ps1",
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
       "${path.root}/../../scripts/Generalize-VM.ps1"
     ]

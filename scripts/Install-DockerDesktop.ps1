@@ -6,6 +6,3 @@ Write-Host "Downloading Docker Desktop ..."
 
 Write-Host "Installing Docker Desktop ..."
 Start-Process -FilePath "C:/Windows/Temp/DockerDesktopInstaller.exe" -ArgumentList "install --quiet --accept-license --backend=hyper-v" -Wait
-
-Write-Host "Set Administrator to docker-users"
-Add-LocalGroupMember -Group "docker-users" -Member "Administrators"
