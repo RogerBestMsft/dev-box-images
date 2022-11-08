@@ -132,8 +132,11 @@ build {
   }
 
   provisioner "powershell" {
+    elevated_user     = build.User
+    elevated_password = build.Password
     scripts = [
-      "${path.root}/../../scripts/Docker/Set-ActiveSetupUser.ps1",
+      #"${path.root}/../../scripts/Docker/Set-ActiveSetupUser.ps1",
+      "${path.root}/../../scripts/Docker/Set-ElevatedPowershellTask.ps1",
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
       "${path.root}/../../scripts/Generalize-VM.ps1"
     ]

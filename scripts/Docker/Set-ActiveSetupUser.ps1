@@ -1,4 +1,9 @@
-# Copy SetDockerUsers.ps1
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+# Stop script execution when a non-terminating error occurs
+$ErrorActionPreference = "Stop"
+
 # Set registry key for active setup
 Write-Host "Adding Active Setup for Docker Users"
 $guid = New-Guid
