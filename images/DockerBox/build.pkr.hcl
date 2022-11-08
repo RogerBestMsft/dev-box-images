@@ -120,7 +120,7 @@ build {
   }
   
   provisioner "file" {
-    source = "${path.root}/../../scripts/Docker/Set-DockerUser.ps1"
+    source = "${path.root}/../../scripts/Docker/Set-DockerUsers.ps1"
     destination = "C:/Windows/Temp/Set-DockerUser.ps1"
   }
 
