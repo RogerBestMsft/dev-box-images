@@ -86,14 +86,6 @@ build {
   provisioner "powershell" {
     elevated_user     = build.User
     elevated_password = build.Password
-    inline = [
-      "choco install googlechrome --yes --no-progress"
-    ]
-  }
-
-  provisioner "powershell" {
-    elevated_user     = build.User
-    elevated_password = build.Password
     scripts = [
       "${path.root}/../../scripts/Install-Git.ps1",
       "${path.root}/../../scripts/Install-GitHub-CLI.ps1",
