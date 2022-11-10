@@ -87,13 +87,13 @@ build {
     elevated_user     = build.User
     elevated_password = build.Password
     scripts = [
-      "${path.root}/../../scripts/Install-Git.ps1",
-      "${path.root}/../../scripts/Install-GitHub-CLI.ps1",
+      #"${path.root}/../../scripts/Install-Git.ps1",
+      #"${path.root}/../../scripts/Install-GitHub-CLI.ps1",
       "${path.root}/../../scripts/Install-DotNet.ps1",
-      "${path.root}/../../scripts/Install-GitHubDesktop.ps1",
+      #"${path.root}/../../scripts/Install-GitHubDesktop.ps1",
       "${path.root}/../../scripts/Install-VSCode.ps1",
       "${path.root}/../../scripts/Install-AzureCLI.ps1",
-      "${path.root}/../../scripts/Enable-Hyperv.ps1"
+      #"${path.root}/../../scripts/Enable-Hyperv.ps1"
     ]
   }
   
@@ -106,8 +106,11 @@ build {
   provisioner "powershell" {
     elevated_user     = build.User
     elevated_password = build.Password
+    # Set Docker backend either WSL2 or HYPERV
+    environment_vars = ["DOCKERBACKEND=WSL"]
     scripts = [
-      "${path.root}/../../scripts/Install-DockerDesktop.ps1"      
+      "${path.root}/../../scripts/Install-WSL.ps1",
+      "${path.root}/../../scripts/Install-DockerDesktop.ps1"
     ]
   }
   
@@ -127,7 +130,6 @@ build {
     elevated_user     = build.User
     elevated_password = build.Password
     scripts = [
-      "${path.root}/../../scripts/Docker/Set-ScheduledTaskUser.ps1",
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
       "${path.root}/../../scripts/Generalize-VM.ps1"
     ]
