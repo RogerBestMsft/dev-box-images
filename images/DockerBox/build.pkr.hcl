@@ -93,7 +93,7 @@ build {
       #"${path.root}/../../scripts/Install-GitHubDesktop.ps1",
       "${path.root}/../../scripts/Install-VSCode.ps1",
       "${path.root}/../../scripts/Install-AzureCLI.ps1",
-      #"${path.root}/../../scripts/Enable-Hyperv.ps1"
+      "${path.root}/../../scripts/Enable-Hyperv.ps1"
     ]
   }
   
@@ -103,20 +103,20 @@ build {
     pause_before    = "2m"
   }
 
-  provisioner "powershell" {
-    elevated_user     = build.User
-    elevated_password = build.Password
-    # Set Docker backend either WSL2 or HYPERV
-    environment_vars = ["DOCKERBACKEND=WSL"]
-    scripts = [
-      "${path.root}/../../scripts/Install-WSL.ps1",
-      "${path.root}/../../scripts/Install-DockerDesktop.ps1"
-    ]
-  }
+#  provisioner "powershell" {
+#    elevated_user     = build.User
+#    elevated_password = build.Password
+#    # Set Docker backend either WSL2 or HYPERV
+#    environment_vars = ["DOCKERBACKEND=WSL"]
+#    scripts = [
+#      "${path.root}/../../scripts/Install-WSL.ps1",
+#      "${path.root}/../../scripts/Install-DockerDesktop.ps1"
+#    ]
+#  }
   
   provisioner "file" {
-    source = "${path.root}/../../scripts/Docker/Set-DockerUsers.ps1"
-    destination = "C:/Windows/Temp/Set-DockerUser.ps1"
+    source = "${path.root}/../../scripts/Docker/Install-Docker.ps1"
+    destination = "C:/Windows/Temp/Install-Docker.ps1"
   }
 
 
@@ -130,6 +130,7 @@ build {
     elevated_user     = build.User
     elevated_password = build.Password
     scripts = [
+      "${path.root}/../../scripts/Docker/Install-DockerTaskSchedule.ps1",
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
       "${path.root}/../../scripts/Generalize-VM.ps1"
     ]
