@@ -87,10 +87,7 @@ build {
     elevated_user     = build.User
     elevated_password = build.Password
     scripts = [
-      #"${path.root}/../../scripts/Install-Git.ps1",
-      #"${path.root}/../../scripts/Install-GitHub-CLI.ps1",
       "${path.root}/../../scripts/Install-DotNet.ps1",
-      #"${path.root}/../../scripts/Install-GitHubDesktop.ps1",
       "${path.root}/../../scripts/Install-VSCode.ps1",
       "${path.root}/../../scripts/Install-AzureCLI.ps1",
       "${path.root}/../../scripts/Enable-Hyperv.ps1"
@@ -103,23 +100,14 @@ build {
     pause_before    = "2m"
   }
 
-#  provisioner "powershell" {
-#    elevated_user     = build.User
-#    elevated_password = build.Password
-#    # Set Docker backend either WSL2 or HYPERV
-#    environment_vars = ["DOCKERBACKEND=WSL"]
-#    scripts = [
-#      "${path.root}/../../scripts/Install-WSL.ps1",
-#      "${path.root}/../../scripts/Install-DockerDesktop.ps1"
-#    ]
-#  }
-  
-  provisioner "file" {
-    source = "${path.root}/../../scripts/Docker/Install-Docker.ps1"
-    destination = "C:/Windows/Temp/Install-Docker.ps1"
+  provisioner "powershell" {
+    elevated_user     = build.User
+    elevated_password = build.Password
+    scripts = [
+      "${path.root}/../../scripts/Docker/Enable-WSL.ps1"
+    ]
   }
-
-
+  
   provisioner "windows-restart" {
     # needed to get elevated script execution working
     restart_timeout = "30m"
@@ -130,7 +118,26 @@ build {
     elevated_user     = build.User
     elevated_password = build.Password
     scripts = [
-      "${path.root}/../../scripts/Docker/Install-DockerTaskSchedule.ps1",
+      "${path.root}/../../scripts/Docker/Install-WSL2Update.ps1"
+    ]
+  }
+
+  provisioner "windows-restart" {
+    # needed to get elevated script execution working
+    restart_timeout = "30m"
+    pause_before    = "2m"
+  }
+
+  provisioner "file" {
+    source = "${path.root}/../../scripts/Docker/Install-DockerDesktop.ps1"
+    destination = "C:/Windows/Temp/Install-DockerDesktop.ps1"
+  }
+
+  provisioner "powershell" {
+    elevated_user     = build.User
+    elevated_password = build.Password
+    scripts = [
+      "${path.root}/../../scripts/Docker/Install-DockerActiveSetup.ps1",
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
       "${path.root}/../../scripts/Generalize-VM.ps1"
     ]
