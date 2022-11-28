@@ -86,56 +86,32 @@ build {
   provisioner "powershell" {
     elevated_user     = build.User
     elevated_password = build.Password
+    inline = [
+      "choco install googlechrome --yes --no-progress"
+    ]
+  }
+
+  provisioner "powershell" {
+    elevated_user     = build.User
+    elevated_password = build.Password
     scripts = [
+      "${path.root}/../../scripts/Install-Git.ps1",
+      "${path.root}/../../scripts/Install-GitHub-CLI.ps1",
       "${path.root}/../../scripts/Install-DotNet.ps1",
+      "${path.root}/../../scripts/Install-GitHubDesktop.ps1",
       "${path.root}/../../scripts/Install-VSCode.ps1",
       "${path.root}/../../scripts/Install-AzureCLI.ps1",
       "${path.root}/../../scripts/Enable-Hyperv.ps1"
     ]
   }
   
-  provisioner "windows-restart" {
+provisioner "windows-restart" {
     # needed to get elevated script execution working
     restart_timeout = "30m"
     pause_before    = "2m"
   }
 
   provisioner "powershell" {
-    elevated_user     = build.User
-    elevated_password = build.Password
-    scripts = [
-      "${path.root}/../../scripts/Docker/Enable-WSL.ps1"
-    ]
-  }
-  
-  provisioner "windows-restart" {
-    # needed to get elevated script execution working
-    restart_timeout = "30m"
-    pause_before    = "2m"
-  }
-
-  provisioner "powershell" {
-    elevated_user     = build.User
-    elevated_password = build.Password
-    scripts = [
-      "${path.root}/../../scripts/Docker/Install-WSL2Update.ps1"
-    ]
-  }
-
-  provisioner "windows-restart" {
-    # needed to get elevated script execution working
-    restart_timeout = "30m"
-    pause_before    = "2m"
-  }
-
-  provisioner "file" {
-    source = "${path.root}/../../scripts/Docker/Install-DockerDesktop.ps1"
-    destination = "C:/Windows/Temp/Install-DockerDesktop.ps1"
-  }
-
-  provisioner "powershell" {
-    elevated_user     = build.User
-    elevated_password = build.Password
     scripts = [
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
       "${path.root}/../../scripts/Generalize-VM.ps1"
