@@ -95,6 +95,7 @@ build {
     elevated_user     = build.User
     elevated_password = build.Password
     scripts = [
+      "${path.root}/../../scripts/Docker/Enable-WSL.ps1",
       "${path.root}/../../scripts/Install-Git.ps1",
       "${path.root}/../../scripts/Install-GitHub-CLI.ps1",
       "${path.root}/../../scripts/Install-DotNet.ps1",
