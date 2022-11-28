@@ -106,7 +106,21 @@ build {
     ]
   }
   
-provisioner "windows-restart" {
+  provisioner "windows-restart" {
+    # needed to get elevated script execution working
+    restart_timeout = "30m"
+    pause_before    = "2m"
+  }
+
+  provisioner "powershell" {
+    elevated_user     = build.User
+    elevated_password = build.Password
+    scripts = [
+      "${path.root}/../../scripts/Docker/Install-WSL2Update.ps1"
+    ]
+  }
+
+  provisioner "windows-restart" {
     # needed to get elevated script execution working
     restart_timeout = "30m"
     pause_before    = "2m"
