@@ -95,7 +95,6 @@ build {
     elevated_user     = build.User
     elevated_password = build.Password
     scripts = [
-      "${path.root}/../../scripts/Docker/Enable-WSL.ps1",
       "${path.root}/../../scripts/Install-Git.ps1",
       "${path.root}/../../scripts/Install-GitHub-CLI.ps1",
       "${path.root}/../../scripts/Install-DotNet.ps1",
@@ -103,6 +102,21 @@ build {
       "${path.root}/../../scripts/Install-VSCode.ps1",
       "${path.root}/../../scripts/Install-AzureCLI.ps1",
       "${path.root}/../../scripts/Enable-Hyperv.ps1"
+    ]
+  }
+  
+  provisioner "windows-restart" {
+    # needed to get elevated script execution working
+    restart_timeout = "30m"
+    pause_before    = "2m"
+  }
+
+
+  provisioner "powershell" {
+    elevated_user     = build.User
+    elevated_password = build.Password
+    scripts = [
+      "${path.root}/../../scripts/Docker/Enable-WSL.ps1"
     ]
   }
   
