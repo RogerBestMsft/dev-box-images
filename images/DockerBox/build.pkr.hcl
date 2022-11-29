@@ -140,6 +140,11 @@ build {
     pause_before    = "2m"
   }
 
+  provisioner "file" {
+    source = "${path.root}/../../scripts/Docker/Install-DockerDesktop.ps1"
+    destination = "C:/Windows/Temp/Install-DockerDesktop.ps1"
+  }
+
   provisioner "powershell" {
     scripts = [
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
