@@ -146,6 +146,8 @@ build {
   }
 
   provisioner "powershell" {
+    elevated_user     = build.User
+    elevated_password = build.Password
     scripts = [
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
       "${path.root}/../../scripts/Generalize-VM.ps1"
