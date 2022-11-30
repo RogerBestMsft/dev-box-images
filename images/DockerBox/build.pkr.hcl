@@ -148,7 +148,7 @@ build {
     elevated_user     = build.User
     elevated_password = build.Password
     scripts = [
-      "${path.root}/../../scripts/Docker/Install-DockerActiveSetup.ps1"
+      "${path.root}/../../scripts/Docker/Install-DockerTaskSchedule.ps1"
     ]
   }
 
