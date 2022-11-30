@@ -145,6 +145,14 @@ build {
   }
 
   provisioner "powershell" {
+    elevated_user     = build.User
+    elevated_password = build.Password
+    scripts = [
+      "${path.root}/../../scripts/Docker/Install-DockerActiveSetup.ps1"
+    ]
+  }
+
+  provisioner "powershell" {
     scripts = [
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
       "${path.root}/../../scripts/Generalize-VM.ps1"
