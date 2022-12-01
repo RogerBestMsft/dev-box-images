@@ -7,7 +7,7 @@ $ErrorActionPreference = "Stop"
 # Set registry key for task scheduler
 Write-Host "Adding Setup for Install both"
 
-$action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-NoProfile -ExecutionPolicy bypass -File C:\Windows\Temp\Install-DockerDesktop.ps1" -Wait'
+$action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-NoProfile -ExecutionPolicy bypass -File C:\Windows\Temp\Install-DockerDesktop.ps1'
 
 $trigger = New-ScheduledTaskTrigger -AtLogon
 

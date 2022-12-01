@@ -28,5 +28,8 @@ Write-Host "Downloading Docker Desktop ..."
 Write-Host "Instal Docker Desktop"
 Start-Process -FilePath "C:/Windows/Temp/DockerDesktopInstaller.exe" -ArgumentList "install --quiet --accept-license --backend=wsl-2" -Wait
 
+# Disable Task
+Disable-ScheduledTask -TaskName "DeployDockerDesktop"
+
 Write-Host "Reboot machine"
 Restart-Computer
