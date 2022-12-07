@@ -33,9 +33,9 @@
 #       Subscription ID (GUID) of the subscription to use. If not set, the builder will use the default subscription of
 #       the authenticated user of service principal
 
-description: Windows 11 Enterprise + M365 Apps + VS2022
+description: Visual Studio 2022 with WSL
 publisher: RBest
 offer: DevBox
-sku: win11-vs2022
+sku: win11-vs-wsl
 version: 1.0.0
 os: Windows
