@@ -2,10 +2,10 @@
 # Licensed under the MIT License.
 
 Param(
-    [Parameter(Mandatory=$true)]
-    [string]$Url,
-    [Parameter(Mandatory=$true)]
-    [string]$Secret
+    [Parameter(Mandatory=$false)]
+    [string]$Url = "https://github.com/rbest999/DemoApps.git",
+    [Parameter(Mandatory=$false)]
+    [string]$Secret = "https://adatumimagebuildkv.vault.azure.net/secrets/GitRepoSecret/0f8b0b9467eb4effae16a70bfd9a6a27"
 )
 
 $ProgressPreference = 'SilentlyContinue'	# hide any progress output
