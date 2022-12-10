@@ -101,17 +101,50 @@ build {
       "${path.root}/../../scripts/Install-GitHub-CLI.ps1",
       "${path.root}/../../scripts/Install-GitHubDesktop.ps1",
       "${path.root}/../../scripts/Install-DotNet.ps1",
-      "${path.root}/../../scripts/Install-AzureCLI.ps1",
-      "${path.root}/../../scripts/Clone-Repo.ps1"
+      "${path.root}/../../scripts/Install-AzureCLI.ps1"
     ]
   }
 
-  // this doesn't work yet
-  // provisioner "powershell" {
-  //   elevated_user     = build.User
-  //   elevated_password = build.Password
-  //   scripts           = [for r in var.repos : "${path.root}/../../scripts/Clone-Repo.ps1 -Url '${r.url}' -Secret '${r.secret}'"]
-  // }
+  provisioner "powershell" {
+    elevated_user     = build.User
+    elevated_password = build.Password
+    scripts = [
+      "${path.root}/../../scripts/Docker/Enable-WSL.ps1"
+    ]
+  }
+
+  provisioner "windows-restart" {
+    # needed to get elevated script execution working
+    restart_timeout = "30m"
+    pause_before    = "2m"
+  }
+
+  provisioner "powershell" {
+    elevated_user     = build.User
+    elevated_password = build.Password
+    scripts = [
+      "${path.root}/../../scripts/Docker/Install-WSL2Update.ps1"
+    ]
+  }
+
+  provisioner "windows-restart" {
+    # needed to get elevated script execution working
+    restart_timeout = "30m"
+    pause_before    = "2m"
+  }
+
+  provisioner "file" {
+    source = "${path.root}/../../scripts/Docker/Set-WSLUbuntuDistro.ps1"
+    destination = "C:/users/public/desktop/Set-WSLUbuntuDistro.ps1"
+  }
+
+  provisioner "powershell" {
+    elevated_user     = build.User
+    elevated_password = build.Password
+    scripts = [
+      "${path.root}/../../scripts/Docker/Set-ActiveSetupWSL.ps1"
+    ]
+  }
 
   provisioner "powershell" {
     scripts = [

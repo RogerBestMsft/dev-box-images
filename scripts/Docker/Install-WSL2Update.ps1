@@ -14,3 +14,4 @@ Start-Process -FilePath "C:/Windows/System32/msiexec.exe" -ArgumentList "/I C:\W
 
 Write-Host "WSL is enabled. Setting it to WSL2"
 wsl --set-default-version 2
+wsl --set-default Ubuntu
