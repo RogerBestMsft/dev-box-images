@@ -105,46 +105,24 @@ build {
     ]
   }
 
-  // provisioner "powershell" {
-  //   elevated_user     = build.User
-  //   elevated_password = build.Password
-  //   scripts = [
-  //     "${path.root}/../../scripts/Docker/Enable-WSL.ps1"
-  //   ]
-  // }
-
-  // provisioner "windows-restart" {
-  //   # needed to get elevated script execution working
-  //   restart_timeout = "30m"
-  //   pause_before    = "2m"
-  // }
-
-  // provisioner "powershell" {
-  //   elevated_user     = build.User
-  //   elevated_password = build.Password
-  //   scripts = [
-  //     "${path.root}/../../scripts/Docker/Install-WSL2Update.ps1"
-  //   ]
-  // }
-
-  // provisioner "windows-restart" {
-  //   # needed to get elevated script execution working
-  //   restart_timeout = "30m"
-  //   pause_before    = "2m"
-  // }
+  provisioner "powershell" {
+    scripts = [
+      "${path.root}/../../scripts/Git/Clone-Repo.ps1"
+    ]
+  }
 
   provisioner "file" {
     source = "${path.root}/../../scripts/Docker/Set-WSLUbuntuDistro.ps1"
     destination = "C:/users/public/desktop/Set-WSLUbuntuDistro.ps1"
   }
 
-  provisioner "powershell" {
-    elevated_user     = build.User
-    elevated_password = build.Password
-    scripts = [
-      "${path.root}/../../scripts/Docker/Set-ActiveSetupWSL.ps1"
-    ]
-  }
+  // provisioner "powershell" {
+  //   elevated_user     = build.User
+  //   elevated_password = build.Password
+  //   scripts = [
+  //     "${path.root}/../../scripts/Docker/Set-ActiveSetupWSL.ps1"
+  //   ]
+  // }
 
   provisioner "powershell" {
     scripts = [
