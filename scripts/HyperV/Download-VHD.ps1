@@ -19,7 +19,7 @@ if (!(Test-Path -Path $fullpath )) {
 $VhdToAttach = "UbuntuDevBox"
 $Targetpath = Join-Path -Path $fullpath -ChildPath $VhdToAttach
 
-
+# Demo code needs cleanup
 C:\azcopy\azcopy_windows_amd64_10.16.2\azcopy.exe login --identity
 
 C:\azcopy\azcopy_windows_amd64_10.16.2\azcopy.exe copy 'https://hypervdiskstorage.blob.core.windows.net/vhds/UbuntuDevBox.vhdx' $Targetpath
@@ -39,3 +39,6 @@ Get-VMIntegrationService -VMName $vm_Name | ? Name -match 'Interface' | Enable-V
 
 Write-Host "Increase processors and Enable processor compatibility"
 Set-VMProcessor -VMName $Vm_Name -CompatibilityForMigrationEnabled 1 -Count 2
+
+Write-Host "Set auto start"
+Set-VM -Name $Vm_Name –AutomaticStartAction Start

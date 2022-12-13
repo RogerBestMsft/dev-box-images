@@ -117,13 +117,13 @@ build {
     destination = "C:/Windows/Temp/StartConnect-VM.ps1"
   }
 
-  provisioner "powershell" {
-    elevated_user     = build.User
-    elevated_password = build.Password
-    scripts = [
-      "${path.root}/../../scripts/HyperV/Set-ActiveSetupConnect.ps1"
-    ]
-  }
+  // provisioner "powershell" {
+  //   elevated_user     = build.User
+  //   elevated_password = build.Password
+  //   scripts = [
+  //     "${path.root}/../../scripts/HyperV/Set-ActiveSetupConnect.ps1"
+  //   ]
+  // }
 
   provisioner "powershell" {
     scripts = [
