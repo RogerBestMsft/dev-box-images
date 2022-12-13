@@ -39,5 +39,5 @@ description: Windows 11 Enterprise + Hyper-V with Nested Ubuntu
 publisher: RBest
 offer: DevBox
 sku: win11-ubuntu
-version: 1.0.3
+version: 1.0.4
 os: Windows

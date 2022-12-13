@@ -111,7 +111,15 @@ build {
       "${path.root}/../../scripts/HyperV/Download-VHD.ps1"
     ]
   }
- 
+
+  provisioner "powershell" {
+    elevated_user     = build.User
+    elevated_password = build.Password
+    scripts = [
+      "${path.root}/../../scripts/HyperV/Add-HypervShortcut.ps1"
+    ]
+  }
+
   provisioner "powershell" {
     scripts = [
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
