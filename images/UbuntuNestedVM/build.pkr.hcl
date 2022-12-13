@@ -111,20 +111,7 @@ build {
       "${path.root}/../../scripts/HyperV/Download-VHD.ps1"
     ]
   }
-    
-  provisioner "file" {
-    source = "${path.root}/../../scripts/HyperV/StartConnect-VM.ps1"
-    destination = "C:/Windows/Temp/StartConnect-VM.ps1"
-  }
-
-  // provisioner "powershell" {
-  //   elevated_user     = build.User
-  //   elevated_password = build.Password
-  //   scripts = [
-  //     "${path.root}/../../scripts/HyperV/Set-ActiveSetupConnect.ps1"
-  //   ]
-  // }
-
+ 
   provisioner "powershell" {
     scripts = [
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
