@@ -108,7 +108,7 @@ build {
     elevated_user     = build.User
     elevated_password = build.Password
     scripts = [
-      "${path.root}/../../scripts/HyperV/Create-Ubuntu-VM.ps1"
+      "${path.root}/../../scripts/HyperV/Download-VHD.ps1"
     ]
   }
     
