@@ -86,6 +86,15 @@ build {
   provisioner "powershell" {
     elevated_user     = build.User
     elevated_password = build.Password
+    scripts = [
+      "${path.root}/../../scripts/AZCopy/Install-AzCopy.ps1"
+      "${path.root}/../../scripts/HyperV/Download-VHD.ps1"
+    ]
+  }
+
+  provisioner "powershell" {
+    elevated_user     = build.User
+    elevated_password = build.Password
     inline = [
       // "choco install postman --yes --no-progress",
       "choco install googlechrome --yes --no-progress",
@@ -99,8 +108,7 @@ build {
     scripts = [
       "${path.root}/../../scripts/Install-Git.ps1",
       "${path.root}/../../scripts/Install-GitHub-CLI.ps1",
-      "${path.root}/../../scripts/Install-GitHubDesktop.ps1",
-      "${path.root}/../../scripts/AZCopy/Install-AzCopy.ps1"
+      "${path.root}/../../scripts/Install-GitHubDesktop.ps1"      
     ]
   }
   
@@ -108,6 +116,7 @@ build {
     elevated_user     = build.User
     elevated_password = build.Password
     scripts = [
+      "${path.root}/../../scripts/AZCopy/Install-AzCopy.ps1"
       "${path.root}/../../scripts/HyperV/Download-VHD.ps1"
     ]
   }
