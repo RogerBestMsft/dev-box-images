@@ -116,14 +116,6 @@ build {
     destination = "C:/users/public/desktop/Set-WSLUbuntuDistro.ps1"
   }
 
-  // provisioner "powershell" {
-  //   elevated_user     = build.User
-  //   elevated_password = build.Password
-  //   scripts = [
-  //     "${path.root}/../../scripts/Docker/Set-ActiveSetupWSL.ps1"
-  //   ]
-  // }
-
   provisioner "powershell" {
     scripts = [
       "${path.root}/../../scripts/Disable-AutoLogon.ps1",
