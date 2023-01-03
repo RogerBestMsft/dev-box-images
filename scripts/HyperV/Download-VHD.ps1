@@ -19,8 +19,17 @@ if (!(Test-Path -Path $fullpath )) {
 $VhdToAttach = "UbuntuDevBox.vhdx"
 $TargetFile = Join-Path -Path $fullpath -ChildPath $VhdToAttach
 
+# Get secret SAS
+
+Write-Host "[${env:username}] Logging in to AZ PowerShell with VM identity ..."
+Connect-AzAccount -Identity
+
+Write-Host "[${env:username}] Getting Secret from Key Vault ..."
+$SecretValue = Get-AzKeyVaultSecret -VaultName "adatumimagebuildkv" -Name "VHDSecret" -AsPlainText
+
+
 # Demo code needs cleanup
-C:\azcopy\azcopy_windows_amd64_10.16.2\azcopy.exe copy 'https://hypervdiskstorage.file.core.windows.net/hypervhds/UbuntuDevBox.vhdx?sv=2021-10-04&st=2022-12-13T16%3A55%3A12Z&se=2022-12-14T16%3A55%3A12Z&sr=f&sp=r&sig=spkkMs4eHwZDp9i4pfOWQpzPS1UT92O0vDXjsZ7D608%3D' $TargetFile
+C:\azcopy\azcopy_windows_amd64_10.16.2\azcopy.exe copy $SecretValue $TargetFile
 
 # Create vm
 Write-Host "Creating Hosted vm $Vm_Name"
